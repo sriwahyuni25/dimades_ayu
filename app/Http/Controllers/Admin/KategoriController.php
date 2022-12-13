@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Mitra;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
 
-class MitraController extends Controller
+class KategoriController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +17,9 @@ class MitraController extends Controller
      */
     public function index()
     {
-        $data = Mitra::orderBy('name', 'ASC')->paginate(10);
+        $data = Category::orderBy('name', 'ASC')->paginate(10);
         $this->data['data'] = $data;
-        return view('admin.mitra.index', $this->data);
+        return view('admin.kategori.index', $this->data);
     }
 
     /**
@@ -30,26 +29,28 @@ class MitraController extends Controller
      */
     public function create()
     {
-        return view('admin.mitra.create');
+        return view('admin.kategori.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         try {
-            if(Mitra::create($request->all())){
-                Session::flash('success', 'Berhasil Simpan');
-            }else{
-                Session::flash('error',"Gagal Simpan");
-            }
-            return redirect()->route('mitra.index');
 
-        }catch (\Throwable $th) {
+            if(Category::create($request->all())){
+                Session::flash('success', 'Berhasil Simpan');
+            } else {
+                Session::flash('error', 'Gagal Simpan');
+            }
+
+            return redirect()->route('kategori.index');
+
+        } catch (\Throwable $th) {
             Session::flash('error',"Periksa Kembali Isian");
             return redirect()->back();
         }
@@ -63,6 +64,7 @@ class MitraController extends Controller
      */
     public function show($id)
     {
+        //
     }
 
     /**
@@ -73,9 +75,9 @@ class MitraController extends Controller
      */
     public function edit($id)
     {
-        $data = Mitra::findOrFail(Crypt::decrypt($id));
+        $data = Category::findOrFail(Crypt::decrypt($id));
         $this->data['data'] = $data;
-        return view('admin.mitra.edit', $this->data);
+        return view('admin.kategori.edit', $this->data);
     }
 
     /**
@@ -87,16 +89,17 @@ class MitraController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd(Crypt::decrypt($id));
         try {
-            $data = Mitra::findOrFail(Crypt::decrypt($id));
-            if($data->update($request->all())){
-                Session::flash('success', 'Berhasil Simpan');
-            }else{
-                Session::flash('error',"Gagal Simpan");
+            $category = Category::findOrFail(Crypt::decrypt($id));
+            if($category->update($request->all())){
+                Session::flash('success', 'Berhasil Update');
+            } else {
+                Session::flash('error', 'Gagal Update');
             }
-            return redirect()->route('mitra.index');
-        }catch (\Throwable $th) {
+
+            return redirect()->route('kategori.index');
+
+        } catch (\Throwable $th) {
             Session::flash('error',"Periksa Kembali Isian");
             return redirect()->back();
         }
@@ -110,12 +113,12 @@ class MitraController extends Controller
      */
     public function destroy($id)
     {
-        $data = Mitra::findOrFail(Crypt::decrypt($id));
-                if($data->delete()){
-                    Session::flash('success', 'Berhasil Simpan');
-                }else{
-                    Session::flash('error',"Gagal Simpan");
-            }
-            return redirect()->route('mitra.index');
+        $data = Category::findOrFail(Crypt::decrypt($id));
+        if($data->delete()){
+            Session::flash('success', 'Berhasil Simpan');
+        }else{
+            Session::flash('error',"Gagal Simpan");
+        }
+        return redirect()->route('kategori.index');
     }
 }

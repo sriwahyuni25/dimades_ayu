@@ -6,18 +6,14 @@
         <div class="col-lg-12">
             <div class="card card-default">
                 <div class="card-header card-header-border-bottom">
-                    <h2>Data Mitra</h2>
+                    <h2>Data Kategori</h2>
                 </div>
                 <div class="card-body">
                     @include('admin.partials.flash')
                     <table class="table table-bordered table-stripped">
                         <thead>
                             <th>No</th>
-                            <th>Nama PT</th>
-                            <th>Nama Admin PT</th>
-                            <th>Jenis Kelamin</th>
-                            <th>No telp</th>
-                            <th>Email</th>
+                            <th>Nama</th>
                             <th>Aksi</th>
                         </thead>
                         <tbody>
@@ -26,13 +22,9 @@
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
                                 <td>{{$row->name}}</td>
-                                <td>{{$row->namaAdminPt}}</td>
-                                <td>{{$row->jk}}</td>
-                                <td>{{$row->notelp}}</td>
-                                <td>{{$row->email}}</td>
                                 <td class="text-center">
-                                    <a class="btn btn-warning btn-sm" href="{{ route('mitra.edit',Crypt::encrypt($row->id)) }}">Edit</a>
-                                    <form action="{{route('mitra.destroy', Crypt::encrypt($row->id))}}" method="POST">
+                                    <a class="btn btn-warning btn-sm" href="{{ route('kategori.edit',Crypt::encrypt($row->id)) }}">Edit</a>
+                                    <form action="{{route('kategori.destroy', Crypt::encrypt($row->id))}}" method="POST">
                                         @csrf
                                         @method('DELETE')
 
@@ -50,7 +42,7 @@
                     {{$data->links()}}
                 </div>
                 <div class="card-footer text-right">
-                    <a href="{{ route('mitra.create') }}" class="btn btn-primary">Tambah Data</a>
+                    <a href="{{ route('kategori.create') }}" class="btn btn-primary">Tambah Data</a>
                 </div>
             </div>
         </div>
